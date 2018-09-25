@@ -23,19 +23,19 @@ from math import pi
 # ROS
 import rospy
 import tf
-from dynamic_reconfigure.server import Server
-from kingfisher_control.cfg import YawDynamicConfig
-from kingfisher_control.cfg import TwistDynamicConfig
+from dynamic_reconfigure.server import Server #************************** look for it
+from controller.cfg import YawDynamicConfig
+from controller.cfg import TwistDynamicConfig
 
-from kingfisher_control.msg import PidDiagnose
+from controller.msg import PidDiagnose
 
 from geometry_msgs.msg import Vector3
 from geometry_msgs.msg import Twist
 from std_msgs.msg import Float64
-from nav_msgs.msg import Odometry
-from kingfisher_msgs.msg import Drive
-from kingfisher_msgs.msg import Course
-from sensor_msgs.msg import Imu
+from nav_msgs.msg import Odometry #************************** look for it
+from controller.msg import Drive
+from controller.msg import Course
+from sensor_msgs.msg import Imu #************************** look for it
 #from std_srvs.srv import SetBool, SetBoolResponse, SetBoolRequest
 from std_srvs.srv import Empty, EmptyResponse
 
