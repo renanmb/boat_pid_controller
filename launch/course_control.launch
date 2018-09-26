@@ -3,7 +3,7 @@
 
 <!--<param name="use_sim_time" value="true" />-->
 
-<node pkg="kingfisher_control" type="pid_control.py" name="pid_control" output="screen">
+<node pkg="boat_pid_controller" type="pid_control.py" name="pid_control" output="screen">
   <param name="yawKp" value="4.0" type="double"/>
   <param name="yawKi" value="0.0" type="double"/>
   <param name="yawKd" value="0.5" type="double"/>
