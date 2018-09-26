@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package>
-  <name>kingfisher_control</name>
+  <name>boat_pid_controller</name>
   <version>0.0.0</version>
   <description>The kingfisher_control package</description>
 
@@ -47,7 +47,7 @@
   <build_depend>message_generation</build_depend>
   <build_depend>std_msgs</build_depend>
   
-  <exec_depend>message_runtime</exec_depend> <!-- ADDED  -->
+ <!-- <exec_depend>message_runtime</exec_depend> ADDED  -->
   <run_depend>message_runtime</run_depend>
   <run_depend>std_msgs</run_depend>
 
