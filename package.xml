@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package>
-  <name>boat_pid_controller</name>
+  <name>boat_pid_controller_node</name>
   <version>0.0.0</version>
   <description>The kingfisher_control package</description>
 

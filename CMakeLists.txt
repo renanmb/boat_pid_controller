@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(boat_pid_controller)
+project(boat_pid_controller_node)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -46,7 +46,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate messages in the 'msg' folder
 add_message_files(
    FILES
-   PidDiagnose.msg
+   Diagnose.msg
    Drive.msg
    Course.msg
 )
@@ -120,7 +120,7 @@ CATKIN_DEPENDS message_runtime std_msgs
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-# include_directories(include)
+# include_directories(${dynamic_reconfigure_PACKAGE_PATH}/cmake/cfgbuild.cmake)
 
 ## Declare a C++ library
 # add_library(kingfisher_control
@@ -133,14 +133,14 @@ CATKIN_DEPENDS message_runtime std_msgs
 # add_dependencies(kingfisher_control ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-# add_executable(kingfisher_control_node src/kingfisher_control_node.cpp)
+# add_executable(boat_pid_controller src/pid_control.py)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-# add_dependencies(kingfisher_control_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
+# add_dependencies(boat_pid_controller_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_dependencies(boat_pid_controller ${PROJECT_NAME}_gencfg)
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(kingfisher_control_node
+# target_link_libraries(boat_pid_controller
 #   ${catkin_LIBRARIES}
 # )
 
