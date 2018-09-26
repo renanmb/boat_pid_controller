@@ -23,10 +23,11 @@ from math import pi
 import rospy
 import tf
 from dynamic_reconfigure.server import Server #************************** look for it
-from boat_pid_controller.cfg import YawDynamicConfig
-from boat_pid_controller.cfg import TwistDynamicConfig
+from boat_pid_controller.cfg import YawDynamic
+from boat_pid_controller.cfg import TwistDynamic
 
-from boat_pid_controller.msg import PidDiagnose
+from boat_pid_controller.msg import Diagnose
+#from boat_pid_controller.msg import *
 
 from geometry_msgs.msg import Vector3
 from geometry_msgs.msg import Twist
@@ -260,10 +261,10 @@ if __name__ == '__main__':
     node.publisher = rospy.Publisher('cmd_drive',Drive,queue_size=10)
     rospy.loginfo("Publishing to %s"%
                   (node.publisher.name))
-    node.ypubdebug = rospy.Publisher("yaw_pid_debug",PidDiagnose,queue_size=10)
-    node.vpubdebug = rospy.Publisher("vel_pid_debug",PidDiagnose,queue_size=10)
-    node.ydebugmsg = PidDiagnose()
-    node.vdebugmsg = PidDiagnose()
+    node.ypubdebug = rospy.Publisher("yaw_pid_debug",Diagnose,queue_size=10)
+    node.vpubdebug = rospy.Publisher("vel_pid_debug",Diagnose,queue_size=10)
+    node.ydebugmsg = Diagnose()
+    node.vdebugmsg = Diagnose()
 
     # Setup service
     #s = rospy.Service('set_engaged',SetBool,node.set_engaged_callback)
@@ -290,4 +291,4 @@ if __name__ == '__main__':
     try:
         rospy.spin()
     except rospy.ROSInterruptException:
-pass
+	pass
