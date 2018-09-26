@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 '''
 Using instances of the pypid Pid class to control yaw and velocity
-
 Important:
   change - kingfisher_control.cfg --- to --- a configuration file regarding the project
   nav_msgs ---- adapt it to receive the topic from the IMU
@@ -24,17 +23,17 @@ from math import pi
 import rospy
 import tf
 from dynamic_reconfigure.server import Server #************************** look for it
-from controller.cfg import YawDynamicConfig
-from controller.cfg import TwistDynamicConfig
+from boat_pid_controller.cfg import YawDynamicConfig
+from boat_pid_controller.cfg import TwistDynamicConfig
 
-from controller.msg import PidDiagnose
+from boat_pid_controller.msg import PidDiagnose
 
 from geometry_msgs.msg import Vector3
 from geometry_msgs.msg import Twist
 from std_msgs.msg import Float64
 from nav_msgs.msg import Odometry #************************** look for it
-from controller.msg import Drive
-from controller.msg import Course
+from boat_pid_controller.msg import Drive
+from boat_pid_controller.msg import Course
 from sensor_msgs.msg import Imu #************************** look for it
 #from std_srvs.srv import SetBool, SetBoolResponse, SetBoolRequest
 from std_srvs.srv import Empty, EmptyResponse
@@ -291,4 +290,4 @@ if __name__ == '__main__':
     try:
         rospy.spin()
     except rospy.ROSInterruptException:
-        pass
+pass
