@@ -1,0 +1,57 @@
+# erpm (electrical rpm) = speed_to_erpm_gain * speed (meters / second) + speed_to_erpm_offset
+#rpm_to_erpm_gain = (number of magnetic poles/2)
+rpm_to_erpm_gain: 7
+speed_to_erpm_offset: 0.0
+
+tachometer_ticks_to_meters_gain: 0.00225
+# servo smoother - limits rotation speed and smooths anything above limit
+max_servo_speed: 3.2 # radians/second
+servo_smoother_rate: 75.0 # messages/sec
+
+# servo smoother - limits acceleration and smooths anything above limit
+max_rpm_acceleration: 100 # max_rpm_acceleration = rpm change per second
+
+throttle_smoother_rate: 100 # messages/sec
+# throttle_smoother_rate = Hz (messages per second)
+
+# servo value (0 to 1) =  steering_angle_to_servo_gain * steering angle (radians) + steering_angle_to_servo_offset
+steering_angle_to_servo_gain: -1.2135
+steering_angle_to_servo_offset: 0.5304
+
+# publish odom to base link tf
+vesc_to_odom/publish_tf: false
+
+# car wheelbase is about 25cm 
+wheelbase: .25
+
+commands:
+  motor:
+    unsmoothed_speed: cmd_drive
+    speed_left: commands/motor/speed_left
+    speed_right: commands/motor/speed_right
+  servo:
+    unsmoothed_position:
+    position:
+    
+
+vesc_driver:
+  port: /dev/ttyACM0
+  duty_cycle_min: 0.0
+  duty_cycle_max: 0.0
+  current_min: 0.0
+  current_max: 20.0
+  brake_min: -20000.0
+  brake_max: 200000.0
+  speed_min: -3250
+  speed_max: 3250
+  position_min: 0.0
+  position_max: 0.0
+  servo_min: 0.15
+  servo_max: 0.85
+  
+# Smooth the acceleration curve, does require a rpm_to_erpm_gain and twiling on the throttle_smoother_rate. 
+
+# The idea here is that we will have a max delta for the rpm change in the acceleration, the VESC works with ERPM so for example:
+# I want a change of 7(rpm_to_erpm_gain)*100(max_rpm_acceleration)/100(throttle_smoother_rate)= 7 ERPM per message -----------╭∩╮(Ο_Ο)╭∩╮------------- 
+# It means that if I have a topic updating the ERPM every 100 Hz and I want a maximum acceleration of 100 rpm per second I will have a limiting delta of 7 ERPM per each message.
+  
