@@ -1,8 +1,11 @@
 # boat_controller
 boat_controller_node
 
-After download ignore throttle_interpolator --- it is for future implementation
-Just move somewhere else or delete it
+pid_controller is stable
 
-This is stable
-TO DO: throttle_interpolator.py need to convert from the PID controller to VESC TOPIC
+source has to be with pid_controller.py and throttle_interpolator.py
+
+TO DO: 
+
+Need to do the implementation of throttle_interpolator.py 
+It converts the PID controller commands to VESC TOPIC.
