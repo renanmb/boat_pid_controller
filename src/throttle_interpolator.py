@@ -2,7 +2,7 @@
 import rospy
 
 from std_msgs.msg import Float64
-from boat_pid_controller.msg import Drive
+from boat_controller.msg import Drive
 
 # import some utils.
 import numpy as np
@@ -22,7 +22,7 @@ class InterpolateThrottle:
         # Boat version with servo steering
         self.servo_input_topic   = rospy.get_param('~servo_input_topic', '/vesc/commands/servo/unsmoothed_position')
         self.servo_output_topic  = rospy.get_param('~servo_output_topic', '/vesc/commands/servo/position')
-        # ------╭∩╮(Ο_Ο)╭∩╮-------╭∩╮(Ο_Ο)╭∩╮------╭∩╮(Ο_Ο)╭∩╮-------╭∩╮(Ο_Ο)╭∩╮----╭∩╮(Ο_Ο)╭∩╮--------╭∩╮(Ο_Ο)╭∩╮-------╭∩╮(Ο_Ο)╭∩╮----╭∩╮(Ο_Ο)╭∩╮--------
+# ---------------------------------------------------------------------------------------------------
         
         # Motor parameters
         self.max_rpm_acceleration = rospy.get_param('/vesc/max_rpm_acceleration')
@@ -30,15 +30,15 @@ class InterpolateThrottle:
         self.min_rpm = rospy.get_param('/vesc/vesc_driver/speed_min')
         self.throttle_smoother_rate = rospy.get_param('/vesc/throttle_smoother_rate')
         self.rpm_to_erpm_gain = rospy.get_param('/vesc/rpm_to_erpm_gain')
-        # ------╭∩╮(Ο_Ο)╭∩╮-------╭∩╮(Ο_Ο)╭∩╮------╭∩╮(Ο_Ο)╭∩╮-------╭∩╮(Ο_Ο)╭∩╮----╭∩╮(Ο_Ο)╭∩╮--------╭∩╮(Ο_Ο)╭∩╮-------╭∩╮(Ο_Ο)╭∩╮----╭∩╮(Ο_Ο)╭∩╮--------
-        
+        # ---------------------------------------------------------------------------------------
+#----------------------------------------------------------------------------------------------
         # Boat version with servo steering
         self.max_servo_speed = rospy.get_param('/vesc/max_servo_speed')
         self.steering_angle_to_servo_gain = rospy.get_param('/vesc/steering_angle_to_servo_gain')
         self.servo_smoother_rate = rospy.get_param('/vesc/servo_smoother_rate')
         self.max_servo = rospy.get_param('/vesc/vesc_driver/servo_max')
         self.min_servo = rospy.get_param('/vesc/vesc_driver/servo_min')
-        # ------╭∩╮(Ο_Ο)╭∩╮-------╭∩╮(Ο_Ο)╭∩╮------╭∩╮(Ο_Ο)╭∩╮-------╭∩╮(Ο_Ο)╭∩╮----╭∩╮(Ο_Ο)╭∩╮--------╭∩╮(Ο_Ο)╭∩╮-------╭∩╮(Ο_Ο)╭∩╮----╭∩╮(Ο_Ο)╭∩╮--------
+# ---------------------------------------------------------------------------------------------------------------
         
         # Variables
         self.last_rpm = 0
@@ -55,8 +55,8 @@ class InterpolateThrottle:
         rospy.Subscriber(self.rpm_input_topic, Drive, self._process_throttle_command)
         rospy.Subscriber(self.servo_input_topic, Float64, self._process_servo_command)
         
-        # ------╭∩╮(Ο_Ο)╭∩╮-------╭∩╮(Ο_Ο)╭∩╮------╭∩╮(Ο_Ο)╭∩╮-------╭∩╮(Ο_Ο)╭∩╮----╭∩╮(Ο_Ο)╭∩╮--------╭∩╮(Ο_Ο)╭∩╮-------╭∩╮(Ο_Ο)╭∩╮----╭∩╮(Ο_Ο)╭∩╮--------
-        
+# --------------------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------------       
         # limiting calculations
         # Smooth the servo steering ratio, does require adequate servo gain, speed and smoother_rate. May change from project to project
         self.max_delta_servo = abs(self.steering_angle_to_servo_gain * self.max_servo_speed / self.servo_smoother_rate)
@@ -70,9 +70,9 @@ class InterpolateThrottle:
         rospy.Timer(rospy.Duration(1.0/self.max_delta_rpm), self._publish_throttle_left_command)
         rospy.Timer(rospy.Duration(1.0/self.max_delta_rpm), self._publish_throttle_right_command)
         # The idea here is that we will have a max delta for the rpm change in the acceleration, the VESC works with ERPM so for example:
-        # I want a change of 7(rpm_to_erpm_gain)*100(max_rpm_acceleration)/100(throttle_smoother_rate)= 7 ERPM per message -----------╭∩╮(Ο_Ο)╭∩╮------------- 
+        # I want a change of 7(rpm_to_erpm_gain)*100(max_rpm_acceleration)/100(throttle_smoother_rate)= 7 ERPM per message ------------------------ 
         # It means that if I have a topic updating the ERPM every 100 Hz and I want a maximum acceleration of 100 rpm per second I will have a limiting delta of 7 ERPM per each message.
-        # ------╭∩╮(Ο_Ο)╭∩╮-------╭∩╮(Ο_Ο)╭∩╮------╭∩╮(Ο_Ο)╭∩╮-------╭∩╮(Ο_Ο)╭∩╮----╭∩╮(Ο_Ο)╭∩╮--------╭∩╮(Ο_Ο)╭∩╮-------╭∩╮(Ο_Ο)╭∩╮----╭∩╮(Ο_Ο)╭∩╮--------
+       # ---------------------------------------------------------------------------------------------
         
         # run the node
         self._run()
@@ -81,9 +81,9 @@ class InterpolateThrottle:
     def _run(self):
         rospy.spin()
 
-# ------╭∩╮(Ο_Ο)╭∩╮-------╭∩╮(Ο_Ο)╭∩╮------╭∩╮(Ο_Ο)╭∩╮-------╭∩╮(Ο_Ο)╭∩╮----╭∩╮(Ο_Ο)╭∩╮--------╭∩╮(Ο_Ο)╭∩╮-------╭∩╮(Ο_Ο)╭∩╮----╭∩╮(Ο_Ο)╭∩╮--------
-# ------╭∩╮(Ο_Ο)╭∩╮-------╭∩╮(Ο_Ο)╭∩╮------╭∩╮(Ο_Ο)╭∩╮-------╭∩╮(Ο_Ο)╭∩╮----╭∩╮(Ο_Ο)╭∩╮--------╭∩╮(Ο_Ο)╭∩╮-------╭∩╮(Ο_Ο)╭∩╮----╭∩╮(Ο_Ο)╭∩╮--------
-# ------╭∩╮(Ο_Ο)╭∩╮-------╭∩╮(Ο_Ο)╭∩╮------╭∩╮(Ο_Ο)╭∩╮-------╭∩╮(Ο_Ο)╭∩╮----╭∩╮(Ο_Ο)╭∩╮--------╭∩╮(Ο_Ο)╭∩╮-------╭∩╮(Ο_Ο)╭∩╮----╭∩╮(Ο_Ο)╭∩╮--------
+# ---------------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------------
 
 # Throttle function --- Publishes and Subscribe the RPM command 
     def _publish_throttle_left_command(self, evt):
@@ -111,8 +111,8 @@ class InterpolateThrottle:
         self.desired_rpm_left = input_rpm_left
         self.desired_rpm_right = input_rpm_right
 
-# ------╭∩╮(Ο_Ο)╭∩╮-------╭∩╮(Ο_Ο)╭∩╮------╭∩╮(Ο_Ο)╭∩╮-------╭∩╮(Ο_Ο)╭∩╮----╭∩╮(Ο_Ο)╭∩╮--------╭∩╮(Ο_Ο)╭∩╮-------╭∩╮(Ο_Ο)╭∩╮----╭∩╮(Ο_Ο)╭∩╮--------
-# ------╭∩╮(Ο_Ο)╭∩╮-------╭∩╮(Ο_Ο)╭∩╮------╭∩╮(Ο_Ο)╭∩╮-------╭∩╮(Ο_Ο)╭∩╮----╭∩╮(Ο_Ο)╭∩╮--------╭∩╮(Ο_Ο)╭∩╮-------╭∩╮(Ο_Ο)╭∩╮----╭∩╮(Ο_Ο)╭∩╮--------
+# ---------------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------------
 
     def _publish_servo_command(self, evt):
         desired_delta = self.desired_servo_position-self.last_servo
@@ -130,8 +130,10 @@ class InterpolateThrottle:
 
 # Boilerplate node spin up. 
 if __name__ == '__main__':
-    try:
-        rospy.init_node('Throttle_Interpolator')
-        p = InterpolateThrottle()
-    except rospy.ROSInterruptException:
-        pass
+	rospy.init_node('Throttle_Interpolator')
+	try:
+        #rospy.init_node('Throttle_Interpolator')
+        #p = InterpolateThrottle()
+		rospy.spin()
+	except rospy.ROSInterruptException:
+		pass
