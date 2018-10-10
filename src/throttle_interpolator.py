@@ -130,10 +130,10 @@ class InterpolateThrottle:
 
 # Boilerplate node spin up. 
 if __name__ == '__main__':
-	rospy.init_node('Throttle_Interpolator')
+#	rospy.init_node('Throttle_Interpolator')
 	try:
-        #rospy.init_node('Throttle_Interpolator')
-        #p = InterpolateThrottle()
+		rospy.init_node('Throttle_Interpolator')
+        	p = InterpolateThrottle()
 		rospy.spin()
 	except rospy.ROSInterruptException:
 		pass
