@@ -1,5 +1,7 @@
 The only launch file that matters is controller.launch
 
+Errors that I am getting:
+
 
 I am trying to launch two nodes: pid_controller.py and throttle_interpolator.py but the ROS keeps giving me back the error: 
 
