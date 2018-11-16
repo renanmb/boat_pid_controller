@@ -19,7 +19,7 @@ from geometry_msgs.msg import Vector3
 from geometry_msgs.msg import Twist
 from std_msgs.msg import Float64
 from nav_msgs.msg import Odometry 
-from boat_controller.msg import Drive
+from boat_controller.msg import Drive #Using geometry_msgs/Twist
 from boat_controller.msg import Course
 from sensor_msgs.msg import Imu 
 #from std_srvs.srv import SetBool, SetBoolResponse, SetBoolRequest
@@ -115,12 +115,13 @@ msg.pose.pose.orientation.w))
         # Scale so that no one output saturates
 
 		#rospy.loginfo('Torque: %.3f, Thrust: %.3f'%(torque,thrust)
-		self.drivemsg.left = -1*torque + thrust
-		self.drivemsg.right = torque + thrust
+		self.drivemsg.linear.x = -1*torque + thrust # left ---> drivemsg.linear.x
+		self.drivemsg.linear.y = torque + thrust # right ---> drivemsg.linear.y
 
 		# Only publish if engaged
 		if (self.engaged):
 			self.publisher.publish(self.drivemsg)
+
 		if (not (self.ypubdebug is None)) and (self.yaw_cntrl):
 			self.ydebugmsg.PID = yout[0]
 			self.ydebugmsg.P = yout[1]
@@ -205,10 +206,12 @@ if __name__ == '__main__':
 		node.ypid.set_inputisangle(True)
 
 	# Setup outbound message
-	node.drivemsg = Drive()
+	node.drivemsg = Twist()
 
 	# Setup publisher
-	node.publisher = rospy.Publisher('cmd_drive',Drive,queue_size=10)
+	#node.publisher = rospy.Publisher('cmd_drive',Drive,queue_size=10)
+	node.publisher = rospy.Publisher('cmd_drive', Twist, queue_size=10)
+
 	rospy.loginfo("Publishing to %s"%(node.publisher.name))
 	node.ypubdebug = rospy.Publisher("yaw_pid_debug",Diagnose,queue_size=10)
 	node.vpubdebug = rospy.Publisher("vel_pid_debug",Diagnose,queue_size=10)
